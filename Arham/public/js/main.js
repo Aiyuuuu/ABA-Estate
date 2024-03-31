@@ -29,7 +29,7 @@ setTimeout(()=>{
 },3000)
 
 const Images = document.getElementById('images'); 
-const images_array = ['./../Home-Images/home-image-1.jpg','./../Home-Images/home-image-2.jpg','./../Home-Images/home-image-3.jpg','./../Home-Images/home-image-4.jpg','./../Home-Images/home-image-5.jpg',];
+const images_array = ['./Home-Images/home-image-1.jpg','./Home-Images/home-image-2.jpg','./Home-Images/home-image-3.jpg','./Home-Images/home-image-4.jpg','./Home-Images/home-image-5.jpg',];
 Images.src = images_array[0];
 
 let x = 1;
