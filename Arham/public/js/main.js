@@ -40,3 +40,62 @@ setInterval(()=>{
             x=1;
         } 
 },2000)
+
+
+
+
+let json= {
+    "Price": "PKR7.9 Crore",
+    "ID": 34881234,
+    "Address": "DHA Phase 6, DHA Defence, Karachi, Sindh",
+    "Bathrooms": 4,
+    "Bedrooms": 5,
+    "Size/Area": "300 Sq. Yd.",
+    "Purpose": "For Sale",
+    "Type": "House",
+    "Real State Agency": "Bukhari Properties",
+    "Real State Agent Name": "Bukhari Properties  Builders"
+  }
+
+
+function addCard(feFrFs, json){
+    if(feFrFs==="featured"){
+        document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML+=`<div class="featuredCard">
+        <div class="img">
+            <img src="https://media.zameen.com/thumbnails/225048243-800x600.webp" alt="">
+        </div>
+
+        <div class="text">
+            <div class="price">${json.Price}</div>
+            <div class="location">${json.Address}</div>
+            <div class="saleRent">House ${json.Purpose}</div>
+            <div class="bedBathArea">
+                <div class="bedrooms"><img src="icons/bedroomicon.svg" alt="">
+                </div>
+                <p>${json.Bedrooms}</p>
+                <div class="bathrooms"><img src="icons/bathroomicon.svg" alt=""></div>
+                <p>${json.Bathrooms}</p>
+                <div class="area"><img src="icons/areaicon.svg" alt=""></div>
+                <p>${json["Size/Area"]}</p>
+            </div>
+
+        </div>
+
+    </div>`
+
+
+    }
+    
+}
+
+
+function removeCards(feFrFs){
+    document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML=""
+}
+
+
+addCard("featured", json)
+
+
+
+
