@@ -122,7 +122,7 @@ exports.sendEmail = (req,res)=>{
     console.log(req.body);
     const mailOptions = {
         from: 'Bilal Bilal <bilalmuhammad0324@gmail.com>', // Sender address with name
-        to: "m.bilal0111@gmail.com", // Receiver's email address
+        to: req.body.Phone, // Receiver's email address
         subject: "Interest in House Purchase Inquiry", // Subject line
         text: "hello",  // Plain text body
         html:  `<h4>Hello, I am <b>${req.body.Name}<b></h4>
