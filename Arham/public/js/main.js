@@ -91,10 +91,56 @@ function addCard(feFrFs, json){
 
 function removeCards(feFrFs){
     document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML=""
+};
+
+
+addCard("featured", json);
+
+
+// Suggested Results functionality //
+let availableKeywords = [
+    'Gulshan',
+    'Malir',
+    'DHA',
+    'Shahrah-e-Faisal',
+    'Landhi',
+    'Korangi',
+    'Surjani Town',
+    'North Karachi',
+    'New Karachi',
+];
+const resultBox = document.querySelector(".result_box");
+const inputBox = document.querySelector(".search-input");
+
+
+inputBox.onkeyup = function(){
+    let result = [];
+    let input  = inputBox.value;
+    if(input.length){
+        result = availableKeywords.filter((keyword)=>{
+            return keyword.toLocaleLowerCase().includes(input.toLocaleLowerCase());
+        });
+        console.log(result);
+    }
+    display(result);
+    if(!result.length){
+        resultBox.innerHTML = '';
+    }
+}
+function display(result){
+    const content = result.map((list)=>{
+        return "<li onclick = selectInput(this)>" + list + "</li>"
+    })
+    resultBox.innerHTML = "<ul>" + content.join('') + "</ul>";
+
+}
+
+function selectInput(list){
+    inputBox.value = list.innerHTML;
+    resultBox.innerHTML = '';
 }
 
 
-addCard("featured", json)
 
 
 
