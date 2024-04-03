@@ -43,6 +43,58 @@ app.get('/cards',(req,res)=>{
 
 app.use(express.static('./public'));
 
-app.listen(3000, ()=>{
+
+const mysql = require('mysql');
+
+const conn = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "P@kistan47",
+    database: "aba",
+});
+
+conn.connect(function(error){
+    if(error) console.log(error) ;
+    else{
+        console.log("Connect Succesfully");
+    }
+})
+
+var addresses = []; // Array to store addresses
+
+// Function to fetch addresses from the database and populate the array
+
+app.get('/location',(req,res)=>{
+    const address = [];
+    conn.query("SELECT DISTINCT location FROM property", (err, result) => {
+            if (err) {
+                throw err;
+            } else {
+                // Assuming result is an array of objects with property 'Address'
+                // result.forEach(row => {
+                //     // console.log(row.location);
+                //     let add = row.location;
+                //     // console.log(add);
+                //     // const address = row.Address;
+                //     // console.log(address);
+                //     addresses.push(add); // Push each address into the array
+                // console.log(addresses);
+                result.forEach(row=>{
+                    address.push(row.location);
+                })
+                res.status(200).send({
+                    status: 'success',
+                    data: address
+                })
+                console.log(result);
+            }
+    });
+
+})
+
+// console.log(addresses);
+
+
+app.listen(2000, ()=>{
     console.log("Server has started");
 })

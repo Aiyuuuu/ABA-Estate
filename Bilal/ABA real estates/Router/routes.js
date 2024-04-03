@@ -23,4 +23,6 @@ router.route('/details/send-email')
 router.route('/details')
     .get(controller.details);
 
+
+    
 module.exports = router;

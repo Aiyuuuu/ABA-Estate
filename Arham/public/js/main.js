@@ -18,15 +18,15 @@ const header = document.querySelector('.header');
 const main = document.getElementById('main');
 const footer = document.querySelector('.foooter')
 
-setTimeout(()=>{
-    loader.style.display = "none";
-},3000)
+// setTimeout(()=>{
+//     loader.style.display = "none";
+// },3000)
 
 setTimeout(()=>{
     main.style.display = "block";
     header.style.display = "flex";
     footer.style.display = "block";
-},3000)
+},0)
 
 const Images = document.getElementById('images'); 
 const images_array = ['./Home-Images/home-image-1.jpg','./Home-Images/home-image-2.jpg','./Home-Images/home-image-3.jpg','./Home-Images/home-image-4.jpg','./Home-Images/home-image-5.jpg',];
@@ -96,19 +96,34 @@ function removeCards(feFrFs){
 
 addCard("featured", json);
 
+// let availableKeywords = [
+//     'Cantt',
+//   'Gulistan-e-Jauhar',
+//   'DHA Defence',
+//   'Malir',
+//   'Gadap Town',
+//   'Gulshan-e-Iqbal Town',
+//   'Scheme 33',
+//   'Manzoor Colony',
+//   'Aisha Manzil',
+//   'Delhi Colony',
+//   'Airport',
+//   'Jamshed Road',
+//   'Shah Faisal Town',
+//   'Civil Lines',
+//   'University Road',
 
-// Suggested Results functionality //
-let availableKeywords = [
-    'Gulshan',
-    'Malir',
-    'DHA',
-    'Shahrah-e-Faisal',
-    'Landhi',
-    'Korangi',
-    'Surjani Town',
-    'North Karachi',
-    'New Karachi',
-];
+// ];
+let availableKeywords = [];
+fetch('/location')
+.then((result)=>{
+    return result.json();
+}).then((data)=>{
+    availableKeywords = [...data.data];
+})
+.catch(err=>{
+    console.log(err);
+})
 const resultBox = document.querySelector(".result_box");
 const inputBox = document.querySelector(".search-input");
 
