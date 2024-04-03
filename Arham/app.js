@@ -70,7 +70,7 @@ app.get('/location',(req,res)=>{
             if (err) {
                 throw err;
             } else {
-                // Assuming result is an array of objects with property 'Address'
+// Assuming result is an array of objects with property 'Address'
                 // result.forEach(row => {
                 //     // console.log(row.location);
                 //     let add = row.location;
@@ -89,7 +89,6 @@ app.get('/location',(req,res)=>{
                 console.log(result);
             }
     });
-
 })
 
 // console.log(addresses);
@@ -98,6 +97,3 @@ app.get('/location',(req,res)=>{
 app.listen(2000, ()=>{
     console.log("Server has started");
 })
-
-
-
