@@ -98,3 +98,6 @@ app.get('/location',(req,res)=>{
 app.listen(2000, ()=>{
     console.log("Server has started");
 })
+
+
+
