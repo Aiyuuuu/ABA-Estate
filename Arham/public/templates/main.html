@@ -16,9 +16,9 @@
 </head>
 
 <body>
-    <!-- <div class="preloader">
+    <div class="preloader">
         <h2 data-text="ABA_ESTATES" class="logo">ABA_ESTATES</h2>
-    </div> -->
+    </div>
     <!-- header -->
     <header class="header">
         <div class="header-content">
@@ -70,7 +70,7 @@
                         <div class="filterLabels">
                             City
                         </div>
-                        <select>
+                        <select id="city" > 
                             <option value="option1" selected>Karachi</option>
                             <option value="option2">Lahore</option>
                             <option value="option3">Islamabad</option>
@@ -85,7 +85,7 @@
                             <div class="propertyType filterLabels">
                                 Property Type
                             </div>
-                            <select>
+                            <select id="property">
                                 <option value="option1" selected>House</option>
                                 <option value="option2">Flat</option>
                                 <option value="option3">Upper Portion</option>
@@ -100,9 +100,7 @@
                             </div>
 
                             <div class="priceAreaSelects">
-
-
-                                <select class="minRange">
+                                <select class="minRange" id="min_ran">
                                     <option value="" selected>Select an option</option>
                                     <option value="option1">20 lac</option>
                                     <option value="option2">40 lac</option>
@@ -119,7 +117,7 @@
                                     <option value="option13">16+ crore</option>
                                 </select>
                                 <p>to</p>
-                                <select class="maxRange">
+                                <select class="maxRange" id="max_ran">
                                     <option value="" selected>Select an option</option>
                                     <option value="option1">20 lac</option>
                                     <option value="option2">40 lac</option>
@@ -145,7 +143,7 @@
 
                             <div class="priceAreaSelects">
 
-                                <select class="minRange">
+                                <select class="minRange" id="min_area">
                                     <option value="" selected>Select an option</option>
                                     <option value="option1">1</option>
                                     <option value="option2">2</option>
@@ -167,7 +165,7 @@
                                 </select>
                                 <p>to</p>
 
-                                <select class="maxRange">
+                                <select class="maxRange" id="max_area">
                                     <option value="" selected>Select an option</option>
                                     <option value="option1">1</option>
                                     <option value="option2">2</option>
@@ -194,7 +192,7 @@
                             <div class="beds filterLabels">
                                 Beds
                             </div>
-                            <select>
+                            <select id="beds">
                                 <option value="" selected>Select an option</option>
                                 <option value="option1">1-2</option>
                                 <option value="option2">3-4</option>

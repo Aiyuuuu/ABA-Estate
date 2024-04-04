@@ -70,15 +70,6 @@ app.get('/location',(req,res)=>{
             if (err) {
                 throw err;
             } else {
-// Assuming result is an array of objects with property 'Address'
-                // result.forEach(row => {
-                //     // console.log(row.location);
-                //     let add = row.location;
-                //     // console.log(add);
-                //     // const address = row.Address;
-                //     // console.log(address);
-                //     addresses.push(add); // Push each address into the array
-                // console.log(addresses);
                 result.forEach(row=>{
                     address.push(row.location);
                 })
@@ -86,7 +77,7 @@ app.get('/location',(req,res)=>{
                     status: 'success',
                     data: address
                 })
-                console.log(result);
+                // console.log(result);
             }
     });
 })
@@ -94,6 +85,6 @@ app.get('/location',(req,res)=>{
 // console.log(addresses);
 
 
-app.listen(2000, ()=>{
+app.listen(3000, ()=>{
     console.log("Server has started");
 })

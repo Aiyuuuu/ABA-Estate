@@ -40,7 +40,7 @@ body,html{
     -webkit-text-stroke: 0vw  #383d52;
     border-right: 2px solid #01fe87;
     overflow: hidden;
-    animation: animate 4s linear infinite;
+    animation: animate 2s linear infinite;
     /* transition: 3s; */
     /* border: none; */
 }

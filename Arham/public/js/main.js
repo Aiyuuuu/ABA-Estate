@@ -18,15 +18,15 @@ const header = document.querySelector('.header');
 const main = document.getElementById('main');
 const footer = document.querySelector('.foooter')
 
-// setTimeout(()=>{
-//     loader.style.display = "none";
-// },3000)
+setTimeout(()=>{
+    loader.style.display = "none";
+},2000)
 
 setTimeout(()=>{
     main.style.display = "block";
     header.style.display = "flex";
     footer.style.display = "block";
-},0)
+},2000)
 
 const Images = document.getElementById('images'); 
 const images_array = ['./Home-Images/home-image-1.jpg','./Home-Images/home-image-2.jpg','./Home-Images/home-image-3.jpg','./Home-Images/home-image-4.jpg','./Home-Images/home-image-5.jpg',];
@@ -155,6 +155,50 @@ function selectInput(list){
     resultBox.innerHTML = '';
 }
 
+const city = document.getElementById('city');
+const property = document.getElementById('property');
+const min_range = document.getElementById('min_ran');
+const max_range = document.getElementById('max_ran');
+const min_area = document.getElementById('min_area');
+const max_area = document.getElementById('max_area');
+const beds = document.getElementById('beds');
+
+city.onchange = function(){
+    console.log(city.options[city.selectedIndex].text);
+
+}
+property.onchange = function(){
+    console.log(property.options[property.selectedIndex].text);
+}
+
+min_range.onchange = function(){
+    console.log(min_range.options[min_range.selectedIndex].text);
+}
+
+max_range.onchange = function(){
+    console.log(max_range.options[max_range.selectedIndex].text);
+}
+
+max_area.onchange = function(){
+    console.log(max_area.options[max_area.selectedIndex].text);
+}
+min_area.onchange = function(){
+    console.log(min_area.options[min_area.selectedIndex].text);
+}
+
+beds.onchange = function(){
+    console.log(beds.options[beds.selectedIndex].text);
+}
+
+
+
+// function getSelectedValue(){
+// }
+
+// console.log(property.value);
+// console.log(min_range.value);
+// console.log(max_range.value);
+// console.log(min_area.value);
 
 
 
