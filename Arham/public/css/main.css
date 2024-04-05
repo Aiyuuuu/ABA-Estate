@@ -495,8 +495,39 @@ footer p{
     margin-bottom: 1%;
 }
 
-.CardsContainer{
-    display: flex;
-    align-items: center;
-    gap: 3%;
+
+
+.CardsContainer .swiper{
+    padding: 0 30px;
+}
+
+.swiper-wrapper{
+    margin-bottom: 10px;
+}
+
+
+#rentBtn{
+    margin-left: 20%;
+}
+
+
+.searchButton{
+    padding: 0 30px;
+    margin-left: 30%;
+    border-radius: 25px;
+    scale: 1.08;
+    background-color: #2fcd79;
+    border: 0px;
+    font-size: 16px;
+}
+
+.searchButton:active{
+    background-color: #0e7a41;
+    outline: 2px solid white;
+
+}
+
+
+.CardsContainer .swiper-button-prev{
+    left: var(--swiper-navigation-sides-offset, -2px);
 }

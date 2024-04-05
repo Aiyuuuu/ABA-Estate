@@ -58,43 +58,75 @@ let json= {
   }
 
 
-function addCard(feFrFs, json){
-    if(feFrFs==="featured"){
-        document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML+=`<div class="featuredCard">
-        <div class="img">
-            <img src="https://media.zameen.com/thumbnails/225048243-800x600.webp" alt="">
-        </div>
+  function addCard(feFrFs, json){
+    document.querySelector(`.${feFrFs} .swiper-wrapper`).innerHTML+=`<div class="swiper-slide">
+    <div class="featuredCard">
+    <div class="img">
+        <img src="https://media.zameen.com/thumbnails/225048243-800x600.webp" alt="">
+    </div>
 
-        <div class="text">
-            <div class="price">${json.Price}</div>
-            <div class="location">${json.Address}</div>
-            <div class="saleRent">House ${json.Purpose}</div>
-            <div class="bedBathArea">
-                <div class="bedrooms"><img src="icons/bedroomicon.svg" alt="">
-                </div>
-                <p>${json.Bedrooms}</p>
-                <div class="bathrooms"><img src="icons/bathroomicon.svg" alt=""></div>
-                <p>${json.Bathrooms}</p>
-                <div class="area"><img src="icons/areaicon.svg" alt=""></div>
-                <p>${json["Size/Area"]}</p>
+    <div class="text">
+        <div class="price">${json.Price}</div>
+        <div class="location">${json.Address}</div>
+        <div class="saleRent">House ${json.Purpose}</div>
+        <div class="bedBathArea">
+            <div class="bedrooms"><img src="./../icons/bedroomicon.svg" alt="">
             </div>
-
+            <p>${json.Bedrooms}</p>
+            <div class="bathrooms"><img src="./../icons/bathroomicon.svg" alt=""></div>
+            <p>${json.Bathrooms}</p>
+            <div class="area"><img src="./../icons/areaicon.svg" alt=""></div>
+            <p>${json["Size/Area"]}</p>
         </div>
 
-    </div>`
+    </div>
 
+</div>
+</div>`
 
-    }
-    
 }
 
 
+
 function removeCards(feFrFs){
-    document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML=""
+document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML=""
 };
 
 
 addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+
+
+
+
+
 
 // let availableKeywords = [
 //     'Cantt',
