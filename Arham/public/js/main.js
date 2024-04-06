@@ -159,7 +159,6 @@ fetch('/location')
 const resultBox = document.querySelector(".result_box");
 const inputBox = document.querySelector(".search-input");
 
-
 inputBox.onkeyup = function(){
     let result = [];
     let input  = inputBox.value;
@@ -167,7 +166,7 @@ inputBox.onkeyup = function(){
         result = availableKeywords.filter((keyword)=>{
             return keyword.toLocaleLowerCase().includes(input.toLocaleLowerCase());
         });
-        console.log(result);
+        // console.log(result);
     }
     display(result);
     if(!result.length){
@@ -176,12 +175,11 @@ inputBox.onkeyup = function(){
 }
 function display(result){
     const content = result.map((list)=>{
-        return "<li onclick = selectInput(this)>" + list + "</li>"
+        return "<li onclick = selectInput(this)>" + list + "</li>";
     })
     resultBox.innerHTML = "<ul>" + content.join('') + "</ul>";
 
 }
-
 function selectInput(list){
     inputBox.value = list.innerHTML;
     resultBox.innerHTML = '';
@@ -194,6 +192,37 @@ const max_range = document.getElementById('max_ran');
 const min_area = document.getElementById('min_area');
 const max_area = document.getElementById('max_area');
 const beds = document.getElementById('beds');
+
+const search_btn = document.querySelector('.rentBuyButtons>.searchButton');
+
+const query_arr = []
+const obj = {};
+search_btn.addEventListener('click',()=>{
+    obj["location"] = inputBox.value;
+    obj["city"] = city.options[city.selectedIndex].text;
+    obj["property"] = property.options[property.selectedIndex].text;
+    obj["min_range"] = min_range.options[min_range.selectedIndex].text;
+    obj["max_range"] = max_range.options[max_range.selectedIndex].text;
+    obj["min_area"] = min_area.options[min_area.selectedIndex].text;
+    obj["max_area"] = max_area.options[max_area.selectedIndex].text;
+    obj["beds"] = beds.options[beds.selectedIndex].text;
+    obj["city"] = city.options[city.selectedIndex].text;
+    fetch('/search',{
+        method: "POST",
+        body : JSON.stringify(obj),
+        headers : {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    }).then((res)=>{
+        return res.json();
+    }).then(data=>{
+        window.location.href = data.data.redirectTo;
+    }).catch(err=>{
+        console.log(err);
+    });
+});
+
+
 
 city.onchange = function(){
     console.log(city.options[city.selectedIndex].text);
