@@ -66,19 +66,18 @@ let json= {
     </div>
 
     <div class="text">
-        <div class="price">${json.Price}</div>
-        <div class="location">${json.Address}</div>
-        <div class="saleRent">House ${json.Purpose}</div>
+        <div class="price">${json.price}</div>
+        <div class="location">${json.location}</div>
+        <div class="saleRent">House ${json.purpose}</div>
         <div class="bedBathArea">
             <div class="bedrooms"><img src="./../icons/bedroomicon.svg" alt="">
             </div>
-            <p>${json.Bedrooms}</p>
+            <p>${json.bedrooms}</p>
             <div class="bathrooms"><img src="./../icons/bathroomicon.svg" alt=""></div>
-            <p>${json.Bathrooms}</p>
+            <p>${json.baths}</p>
             <div class="area"><img src="./../icons/areaicon.svg" alt=""></div>
-            <p>${json["Size/Area"]}</p>
+            <p>${json.area}</p>
         </div>
-
     </div>
 
 </div>
@@ -86,66 +85,123 @@ let json= {
 
 }
 
-
-
 function removeCards(feFrFs){
 document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML=""
 };
 
+// Featured cards added from database ////////
+async function fetchFeaturedCardData() {
+    try {
+        const res = await fetch('/featuredCards');
+        const data = await res.json();
+        let objects = data.data;
+        console.log(objects);
+        objects.forEach(obj=>{
+            if(obj.price>=100000 && obj.price<=9999999){
+                obj.price = `${obj.price/100000} lacs`;
+            }else if (obj.price === 10000000) {
+                obj.price =  `${obj.price / 10000000} crore`;
+            }
+            else{
+                obj.price = `${obj.price/10000000} crores` ;
+            }
+            addCard("featured",obj);
+        })
 
-addCard("featured", json);
-addCard("featured", json);
-addCard("featured", json);
-addCard("featured", json);
-addCard("featured", json);
-addCard("featured", json);
-addCard("featured", json);
-addCard("featured", json);
-addCard("featured", json);
-addCard("featured", json);
-addCard("forSale", json);
-addCard("forSale", json);
-addCard("forSale", json);
-addCard("forSale", json);
-addCard("forSale", json);
-addCard("forSale", json);
-addCard("forSale", json);
-addCard("forSale", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
-addCard("forRent", json);
+    } catch (err) {
+        console.log(err);
+    }
+}
+fetchFeaturedCardData();
+//////////////////////////////////////////////////////////////////////
+
+// For Sale Cards added from database ////////
+async function fetchForSaleCardData() {
+    try {
+        const res = await fetch('/forSaleCards');
+        const data = await res.json();
+        let objects = data.data;
+        console.log(objects);
+        objects.forEach(obj=>{
+            if(obj.price>=100000 && obj.price<=9999999){
+                obj.price = `${obj.price/100000} lacs`;
+            }else if (obj.price === 10000000) {
+                obj.price =  `${obj.price / 10000000} crore`;
+            }
+            else{
+                obj.price = `${obj.price/10000000} crores` ;
+            }
+            addCard("forSale",obj);
+        })
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+fetchForSaleCardData();
+//////////////////////////////////////////////////////////////////////
+
+// For Rent Cards added from database ////////
+async function fetchForRentCardData() {
+    try {
+        const res = await fetch('/forRentCards');
+        const data = await res.json();
+        let objects = data.data;
+        console.log(objects);
+        objects.forEach(obj=>{
+            if(obj.price>=1000 && obj.price<=99999){
+                obj.price = `${obj.price/1000} thousand`;
+            }
+            else if(obj.price===100000){
+                obj.price = `${obj.price/100000} lac`
+            }
+            else{
+                obj.price = `${obj.price/100000} lacs` ;
+            }
+            addCard("forRent",obj);
+        })
+
+    } catch (err) {
+        console.log(err);
+    }
+}
+fetchForRentCardData();
+//////////////////////////////////////////////////////////////////////
+
+
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("featured", json);
+// addCard("forSale", json);
+// addCard("forSale", json);
+// addCard("forSale", json);
+// addCard("forSale", json);
+// addCard("forSale", json);
+// addCard("forSale", json);
+// addCard("forSale", json);
+// addCard("forSale", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
+// addCard("forRent", json);
 
 
 
 
-
-
-// let availableKeywords = [
-//     'Cantt',
-//   'Gulistan-e-Jauhar',
-//   'DHA Defence',
-//   'Malir',
-//   'Gadap Town',
-//   'Gulshan-e-Iqbal Town',
-//   'Scheme 33',
-//   'Manzoor Colony',
-//   'Aisha Manzil',
-//   'Delhi Colony',
-//   'Airport',
-//   'Jamshed Road',
-//   'Shah Faisal Town',
-//   'Civil Lines',
-//   'University Road',
-
-// ];
 let availableKeywords = [];
 fetch('/location')
 .then((result)=>{

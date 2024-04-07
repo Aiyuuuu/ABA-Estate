@@ -11,6 +11,9 @@ const htmlFilePath = fs.readFileSync('./public/templates/index.html','utf-8');
 const htmlCard = fs.readFileSync('./public/templates/index-card.html','utf-8');
 const htmlMain = fs.readFileSync('./public/templates/main.html','utf-8');
 
+const stringToInteger = require('./Utilities/stringToInteger');
+const integerToString = require('./Utilities/integerToString');
+
 app.use(express.json());
 
 app.get('/',(req,res)=>{
@@ -49,6 +52,7 @@ app.use(express.static('./public'));
 
 const mysql = require('mysql');
 const exp = require("constants");
+const { error } = require("console");
 
 const conn = mysql.createConnection({
     host: "localhost",
@@ -88,35 +92,14 @@ app.get('/location',(req,res)=>{
 let cardArray = [];
 app.post('/search',(req,res)=>{
     try{
-        const movie = req.body;
-        console.log(movie);
         const {location,city,property,min_range,max_range,min_area,max_area,beds} = req.body;
-        function convertToInteger(value) {
-            const mapping = {
-                lac: 100000,
-                crore: 10000000
-            };
-        
-            const [number, unit] = value.toLowerCase().split(/\s+/); 
-            return mapping[unit] ? parseInt(number) * mapping[unit] : null;
-        }
-        const min_range_int = convertToInteger(min_range);
-        const max_range_int = convertToInteger(max_range);
+        const min_range_int = stringToInteger(min_range);
+        const max_range_int = stringToInteger(max_range);
         conn.query("SELECT * FROM updatedzameendataset3 WHERE location = (?) AND city = (?) AND property_type = (?) AND price BETWEEN (?) AND (?) AND area BETWEEN (?) AND (?) AND bedrooms = (?)",[location,city,property,min_range_int,max_range_int,min_area,max_area,beds],(error,result)=>{
             if(error){
                 console.log(error);
             }
             else{
-                const convertToString = function (value){
-                    if(value>=100000 && value<=9999999){
-                        return(`${value/100000} lacs`);
-                    }else if (value === 10000000) {
-                        return `${value / 10000000} crore`;
-                    }
-                    else{
-                        return(`${value/10000000} crores` );
-                    }
-                }
                 cardArray = result.map((res) =>{
                     let output = htmlCard.replace("{{%DESCRIPTION%}}",res.description);
                     output = output.replace("{{%BEDROOMS%}}",res.bedrooms);
@@ -124,7 +107,7 @@ app.post('/search',(req,res)=>{
                     output = output.replace("{{%BATHROOMS%}}",res.baths);
                     output = output.replace("{{%SIZE%}}",res.area);
                     output = output.replace("{{%PURPOSE%}}",res.purpose);
-                    let con_price = convertToString(res.price);
+                    let con_price = integerToString(res.price);
                     output = output.replace("{{%PRICE%}}",con_price);
                     return output;
                 });
@@ -146,6 +129,66 @@ app.post('/search',(req,res)=>{
 })
 app.get('/cards',(req,res)=>{ 
     res.send(cardArray.join(','));
+})
+app.get('/featuredCards',(req,res)=>{
+    try{
+        conn.query("Select location,price,property_id,baths,bedrooms,area,purpose FROM updatedzameendataset3 WHERE LENGTH(location)>6 LIMIT 10 ",(err,result)=>{
+            if(err){
+                console.error(err);
+                res.status(500).json({ error: "Internal Server Error" });
+                return ;
+            }           
+            res.status(200).json({
+                status: "success",
+                data : result
+            })
+        })
+    }catch(err){
+        res.status(400).json({
+            status: 'fail',
+            message: "Error occured: "+err.message
+        })
+    }
+})
+app.get('/forSaleCards',(req,res)=>{
+    try{
+        conn.query("Select location,price,property_id,baths,bedrooms,area,purpose FROM updatedzameendataset3 WHERE purpose='For Sale' ORDER BY RAND() LIMIT 10 ",(err,result)=>{
+            if(err){
+                console.error(err);
+                res.status(500).json({ error: "Internal Server Error" });
+                return ;
+            }           
+            res.status(200).json({
+                status: "success",
+                data : result
+            })
+        })
+    }catch(err){
+        res.status(400).json({
+            status: 'fail',
+            message: "Error occured: "+err.message
+        })
+    }
+})
+app.get('/forRentCards',(req,res)=>{
+    try{
+        conn.query("Select location,price,property_id,baths,bedrooms,area,purpose FROM updatedzameendataset3 WHERE purpose='For Rent' ORDER BY RAND() LIMIT 10 ",(err,result)=>{
+            if(err){
+                console.error(err);
+                res.status(500).json({ error: "Internal Server Error" });
+                return ;
+            }           
+            res.status(200).json({
+                status: "success",
+                data : result
+            })
+        })
+    }catch(err){
+        res.status(400).json({
+            status: 'fail',
+            message: "Error occured: "+err.message
+        })
+    }
 })
 
 
