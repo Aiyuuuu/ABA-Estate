@@ -23,4 +23,7 @@ router.route('/details/send-email')
 router.route('/details')
     .get(controller.details);
 
+router.route('/cards')
+    .get(controller.showCards);
+
 module.exports = router;

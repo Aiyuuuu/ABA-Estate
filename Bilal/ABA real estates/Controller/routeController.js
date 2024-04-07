@@ -1,8 +1,10 @@
 const express = require('express');
 const path = require('path');
+const ejs = require('ejs');
 const model = require('./../Model/model');
 const conn = require('./../Connection/connect');
 const transporter = require('./../Email/send-email');
+const convertToPakistaniCounting = require('./../Utils/currencyConversion');
 const fs = require('fs');
 const app = express();
 
@@ -19,8 +21,8 @@ const app = express();
 
 //     return output;
 // }
-// code for showing login page
 
+// code for showing login page
 exports.showAuthenticationPage = (req,res)=>{
     const filePath = path.join(__dirname,'../','public','views','authenticate.html');
     res.status(200).sendFile(filePath);
@@ -109,12 +111,37 @@ exports.validate = (req,res,next)=>{
 exports.getIdHouseDetails = (req,res)=>{
     const id = req.params.id;
     conn.query('SELECT * FROM propertydetails WHERE property_id=(?)',[id],(err,result)=>{
+        result = result.map(obj => ({ ...obj, price: convertToPakistaniCounting(obj.price)}));            
         res.status(200).render('template',{result:result[0]});
         // fs.readFile('./public/views/template-house-details.html','utf-8',(err,html)=>{
         //     res.status(200).send(createTemplate(html,result[0],id));
         // })
     })
     // res.status(200).sendFile(path.join(__dirname,'../','public','views','template-house-details.html'));
+}
+
+// code for showing cards dynamically
+exports.showCards = async(req,res)=>{
+    // console.log(req.query);
+    const limit = req.query.limit || 10;
+    const page = req.query.page || 1;
+    const skip = (page - 1)*limit;
+    conn.query(`SELECT * FROM propertydetails LIMIT ${limit} OFFSET ${skip}`,(err,result)=>{
+        if(!err){
+            result = result.map(obj => ({ ...obj, price: convertToPakistaniCounting(obj.price)}));            
+            const renderedCard = result.map((item)=>{ // returns array of promises
+                return ejs.renderFile(path.join(__dirname,'../','public/views/cardTemplate.ejs'),{result:item});
+            })
+            Promise.all(renderedCard.map(rendercard => rendercard.then(cardHtml => cardHtml)))
+                .then((content) => {
+                    // console.log(content);
+                    res.status(200).render('HouseDetailsCardsTemplate',{results:content});
+                });
+        }
+        else{
+            res.status(404).sendFile(path.join(__dirname,'../','public','views','404.html'));
+        }
+    })
 }
 
 // code for sending email 
