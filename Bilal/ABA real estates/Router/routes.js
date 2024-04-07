@@ -26,4 +26,5 @@ router.route('/details')
 router.route('/cards')
     .get(controller.showCards);
 
+    
 module.exports = router;

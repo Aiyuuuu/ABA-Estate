@@ -20,13 +20,13 @@ const footer = document.querySelector('.foooter')
 
 setTimeout(()=>{
     loader.style.display = "none";
-},3000)
+},2000)
 
 setTimeout(()=>{
     main.style.display = "block";
     header.style.display = "flex";
     footer.style.display = "block";
-},3000)
+},2000)
 
 const Images = document.getElementById('images'); 
 const images_array = ['./Home-Images/home-image-1.jpg','./Home-Images/home-image-2.jpg','./Home-Images/home-image-3.jpg','./Home-Images/home-image-4.jpg','./Home-Images/home-image-5.jpg',];
@@ -58,60 +58,106 @@ let json= {
   }
 
 
-function addCard(feFrFs, json){
-    if(feFrFs==="featured"){
-        document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML+=`<div class="featuredCard">
-        <div class="img">
-            <img src="https://media.zameen.com/thumbnails/225048243-800x600.webp" alt="">
-        </div>
+  function addCard(feFrFs, json){
+    document.querySelector(`.${feFrFs} .swiper-wrapper`).innerHTML+=`<div class="swiper-slide">
+    <div class="featuredCard">
+    <div class="img">
+        <img src="https://media.zameen.com/thumbnails/225048243-800x600.webp" alt="">
+    </div>
 
-        <div class="text">
-            <div class="price">${json.Price}</div>
-            <div class="location">${json.Address}</div>
-            <div class="saleRent">House ${json.Purpose}</div>
-            <div class="bedBathArea">
-                <div class="bedrooms"><img src="icons/bedroomicon.svg" alt="">
-                </div>
-                <p>${json.Bedrooms}</p>
-                <div class="bathrooms"><img src="icons/bathroomicon.svg" alt=""></div>
-                <p>${json.Bathrooms}</p>
-                <div class="area"><img src="icons/areaicon.svg" alt=""></div>
-                <p>${json["Size/Area"]}</p>
+    <div class="text">
+        <div class="price">${json.Price}</div>
+        <div class="location">${json.Address}</div>
+        <div class="saleRent">House ${json.Purpose}</div>
+        <div class="bedBathArea">
+            <div class="bedrooms"><img src="./../icons/bedroomicon.svg" alt="">
             </div>
-
+            <p>${json.Bedrooms}</p>
+            <div class="bathrooms"><img src="./../icons/bathroomicon.svg" alt=""></div>
+            <p>${json.Bathrooms}</p>
+            <div class="area"><img src="./../icons/areaicon.svg" alt=""></div>
+            <p>${json["Size/Area"]}</p>
         </div>
 
-    </div>`
+    </div>
 
+</div>
+</div>`
 
-    }
-    
 }
 
 
+
 function removeCards(feFrFs){
-    document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML=""
+document.querySelector(`.${feFrFs} .CardsContainer`).innerHTML=""
 };
 
 
 addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("featured", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forSale", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
+addCard("forRent", json);
 
 
-// Suggested Results functionality //
-let availableKeywords = [
-    'Gulshan',
-    'Malir',
-    'DHA',
-    'Shahrah-e-Faisal',
-    'Landhi',
-    'Korangi',
-    'Surjani Town',
-    'North Karachi',
-    'New Karachi',
-];
+
+
+
+
+// let availableKeywords = [
+//     'Cantt',
+//   'Gulistan-e-Jauhar',
+//   'DHA Defence',
+//   'Malir',
+//   'Gadap Town',
+//   'Gulshan-e-Iqbal Town',
+//   'Scheme 33',
+//   'Manzoor Colony',
+//   'Aisha Manzil',
+//   'Delhi Colony',
+//   'Airport',
+//   'Jamshed Road',
+//   'Shah Faisal Town',
+//   'Civil Lines',
+//   'University Road',
+
+// ];
+let availableKeywords = [];
+fetch('/location')
+.then((result)=>{
+    return result.json();
+}).then((data)=>{
+    availableKeywords = [...data.data];
+})
+.catch(err=>{
+    console.log(err);
+})
 const resultBox = document.querySelector(".result_box");
 const inputBox = document.querySelector(".search-input");
-
 
 inputBox.onkeyup = function(){
     let result = [];
@@ -120,7 +166,7 @@ inputBox.onkeyup = function(){
         result = availableKeywords.filter((keyword)=>{
             return keyword.toLocaleLowerCase().includes(input.toLocaleLowerCase());
         });
-        console.log(result);
+        // console.log(result);
     }
     display(result);
     if(!result.length){
@@ -129,17 +175,91 @@ inputBox.onkeyup = function(){
 }
 function display(result){
     const content = result.map((list)=>{
-        return "<li onclick = selectInput(this)>" + list + "</li>"
+        return "<li onclick = selectInput(this)>" + list + "</li>";
     })
     resultBox.innerHTML = "<ul>" + content.join('') + "</ul>";
 
 }
-
 function selectInput(list){
     inputBox.value = list.innerHTML;
     resultBox.innerHTML = '';
 }
 
+const city = document.getElementById('city');
+const property = document.getElementById('property');
+const min_range = document.getElementById('min_ran');
+const max_range = document.getElementById('max_ran');
+const min_area = document.getElementById('min_area');
+const max_area = document.getElementById('max_area');
+const beds = document.getElementById('beds');
+
+const search_btn = document.querySelector('.rentBuyButtons>.searchButton');
+
+const query_arr = []
+const obj = {};
+search_btn.addEventListener('click',()=>{
+    obj["location"] = inputBox.value;
+    obj["city"] = city.options[city.selectedIndex].text;
+    obj["property"] = property.options[property.selectedIndex].text;
+    obj["min_range"] = min_range.options[min_range.selectedIndex].text;
+    obj["max_range"] = max_range.options[max_range.selectedIndex].text;
+    obj["min_area"] = min_area.options[min_area.selectedIndex].text;
+    obj["max_area"] = max_area.options[max_area.selectedIndex].text;
+    obj["beds"] = beds.options[beds.selectedIndex].text;
+    obj["city"] = city.options[city.selectedIndex].text;
+    fetch('/search',{
+        method: "POST",
+        body : JSON.stringify(obj),
+        headers : {
+            "Content-type": "application/json; charset=UTF-8"
+        }
+    }).then((res)=>{
+        return res.json();
+    }).then(data=>{
+        window.location.href = data.data.redirectTo;
+    }).catch(err=>{
+        console.log(err);
+    });
+});
+
+
+
+city.onchange = function(){
+    console.log(city.options[city.selectedIndex].text);
+
+}
+property.onchange = function(){
+    console.log(property.options[property.selectedIndex].text);
+}
+
+min_range.onchange = function(){
+    console.log(min_range.options[min_range.selectedIndex].text);
+}
+
+max_range.onchange = function(){
+    console.log(max_range.options[max_range.selectedIndex].text);
+}
+
+max_area.onchange = function(){
+    console.log(max_area.options[max_area.selectedIndex].text);
+}
+min_area.onchange = function(){
+    console.log(min_area.options[min_area.selectedIndex].text);
+}
+
+beds.onchange = function(){
+    console.log(beds.options[beds.selectedIndex].text);
+}
+
+
+
+// function getSelectedValue(){
+// }
+
+// console.log(property.value);
+// console.log(min_range.value);
+// console.log(max_range.value);
+// console.log(min_area.value);
 
 
 
