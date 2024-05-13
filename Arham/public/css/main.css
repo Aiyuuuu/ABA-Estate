@@ -527,7 +527,6 @@ footer p{
 
 }
 
-
 .CardsContainer .swiper-button-prev{
     left: var(--swiper-navigation-sides-offset, -2px);
 }

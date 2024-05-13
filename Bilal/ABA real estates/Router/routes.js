@@ -26,5 +26,6 @@ router.route('/details')
 router.route('/cards')
     .get(controller.showCards);
 
-    
+router.route('/location')
+    .get(controller.getLocation);
 module.exports = router;
