@@ -108,6 +108,22 @@ exports.validate = (req,res,next)=>{
         next();
     })
 }
+exports.getLocation = (req,res) =>{
+    const address = [];
+    conn.query("SELECT DISTINCT location FROM updatedzameendataset3", (err, result) => {
+            if (err) {
+                throw err;
+            } else {
+                result.forEach(row=>{
+                    address.push(row.location);
+                })
+                res.status(200).send({
+                    status: 'success',
+                    data: address
+                })
+            }
+    });
+}
 exports.getIdHouseDetails = (req,res)=>{
     const id = req.params.id;
     conn.query('SELECT * FROM propertydetails WHERE property_id=(?)',[id],(err,result)=>{

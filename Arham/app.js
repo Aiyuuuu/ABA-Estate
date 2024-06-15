@@ -1,6 +1,7 @@
 const express = require("express");
 const fs = require('fs');
 const app = express();
+const multer = require('multer');
 const path =  require('path');
 // const query_arr = require('./public/js/main');
 
@@ -15,6 +16,8 @@ const stringToInteger = require('./Utilities/stringToInteger');
 const integerToString = require('./Utilities/integerToString');
 
 app.use(express.json());
+// Middleware to parse URL-encoded bodies
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/',(req,res)=>{
     res.send(htmlMain);
@@ -127,8 +130,121 @@ app.post('/search',(req,res)=>{
         })
     }
 })
+
+
+
+// Ensure the uploads directory exists
+
+// Multer storage configuration
+const uniqueID = function generateRandom7DigitNumber() {
+    const min = 1000000; // Minimum 7-digit number
+    const max = 9999999; // Maximum 7-digit number
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, './uploads')
+    },
+    filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+      cb(null, uniqueID()+Date.now()+'-'+file.originalname)
+    }
+  })
+  
+  const upload = multer({ storage: storage })
+// const upload = multer({dest: "uploads/"})
+
+app.post('/propertyPosted', upload.fields([
+    {name:'img1', maxCount: 1},
+    {name:'img2', maxCount: 1},
+    {name:'img3', maxCount: 1},
+
+]), (req, res) => {
+    const propertyID = uniqueID();
+    const propertyData = {
+        property_id: propertyID,
+        price: req.body.price,
+        area: req.body.area,
+        property_type: req.body.property_type,
+        purpose: req.body.purpose,
+        bedrooms: req.body.bedrooms,
+        baths: req.body.baths,
+        location: req.body.location,
+        city: req.body.city,
+        latitude: req.body.latitude,
+        longitude: req.body.longitude,
+        description: req.body.description
+    };
+    console.log(propertyData);
+    const insertPropertyQuery = 'INSERT INTO updatedzameendataset3 SET ?';
+    conn.query(insertPropertyQuery, propertyData, err => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send('Error saving property data');
+        }
+
+        const files = req.files;
+        const fileInsertQueries = [];
+
+        Object.keys(files).forEach(key => {
+            files[key].forEach(file => {
+                const insertFileQuery = 'INSERT INTO property_images (property_id, file_name) VALUES (?, ?)';
+                fileInsertQueries.push(new Promise((resolve, reject) => {
+                    conn.query(insertFileQuery, [propertyID, file.filename], err => {
+                        if (err) return reject(err);
+                        if (file.path) {
+                            resolve(file.path); // Ensure file.path is passed to resolve
+                        } else {
+                            reject(new Error('File path is undefined'));
+                        }
+                    });
+                }));
+            });
+        });
+    
+        Promise.all(fileInsertQueries)
+            .then(filePaths => {
+                filePaths.forEach(filePath => {
+                    if (filePath) {
+                        fs.unlink(filePath, err => {
+                            if (err) console.error(`Error deleting file: ${filePath}`, err);
+                        });
+                    } else {
+                        console.error('File path is undefined, skipping deletion');
+                    }
+                });
+                // res.json({ status: 'success', message: 'Property posted successfully' });
+                // let posted = true;
+                // res.send(posted);
+                res.status(201).json({
+                    status: 'success',
+                    data:{
+                        success: true,
+                        id: propertyID
+                    }
+                }) 
+            })
+            .catch(err => {
+                console.error(err);
+                res.status(500).send('Error saving files');
+            });
+    });
+});
+
+app.get('/contact-us',(req,res)=>{
+    res.sendFile(path.join(__dirname,'./public/templates/contact.html'))
+})
+
+app.post('/contactInfo',(req,res)=>{
+    console.log(req.body);
+    res.send("Contact Details sent");
+})
 app.get('/cards',(req,res)=>{ 
     res.send(cardArray.join(','));
+})
+app.get('/postProperty',(req,res)=>{
+    res.sendFile(path.join(__dirname,'./public/templates/postProperty.html'));
 })
 app.get('/featuredCards',(req,res)=>{
     try{

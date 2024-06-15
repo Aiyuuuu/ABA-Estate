@@ -20,13 +20,13 @@ const footer = document.querySelector('.foooter')
 
 setTimeout(()=>{
     loader.style.display = "none";
-},2000)
+},1970)
 
 setTimeout(()=>{
     main.style.display = "block";
     header.style.display = "flex";
     footer.style.display = "block";
-},2000)
+},1970)
 
 const Images = document.getElementById('images'); 
 const images_array = ['./Home-Images/home-image-1.jpg','./Home-Images/home-image-2.jpg','./Home-Images/home-image-3.jpg','./Home-Images/home-image-4.jpg','./Home-Images/home-image-5.jpg',];
